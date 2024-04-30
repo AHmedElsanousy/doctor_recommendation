@@ -21,16 +21,45 @@ class MapScreen extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              TextFormField(
-                //onChanged: (value) => pos = value,
+              DropdownMenu(
+                  onSelected: (city) {
+                    if (city != null) {
+                      controller.fetchDoctorLocations(city);
+                      Get.to(() => CustomMap(
+                            city: city.toLowerCase(),
+                            markers: controller.markers,
+                          ));
+                    }
+                  },
+                  hintText: "Select City",
+                  enableFilter: false,
+                  width: 300,
+                  menuHeight: 300,
+                  dropdownMenuEntries: const <DropdownMenuEntry<String>>[
+                    DropdownMenuEntry(value: "cairo", label: "Cairo"),
+                    DropdownMenuEntry(value: "giza", label: "Giza"),
+                    DropdownMenuEntry(value: "alexandria", label: "Alexandria"),
+                    DropdownMenuEntry(value: "qalyubia", label: "Qalyubia"),
+                    DropdownMenuEntry(value: "gharbia", label: "Gharbia"),
+                    DropdownMenuEntry(value: "assiut", label: "Assiut"),
+                    DropdownMenuEntry(value: "sohag", label: "Sohag"),
+                    DropdownMenuEntry(value: "minya", label: "Minya"),
+                    DropdownMenuEntry(value: "qena", label: "Qena"),
+                    DropdownMenuEntry(value: "menoufia", label: "Menoufia"),
+                    DropdownMenuEntry(value: "dakahlia", label: "Dakahlia"),
+                    DropdownMenuEntry(value: "beni suef", label: "Beni suef"),
+                    DropdownMenuEntry(value: "sharkia", label: "Sharkia"),
+                    DropdownMenuEntry(value: "port said", label: "Port said"),
+                  ]),
+              /* TextField(
                 controller: controller.cityController,
                 decoration: InputDecoration(
                   labelText: 'Enter City Name',
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-                      final String city = controller.cityController.text;
-                      controller.fetchDoctorLocations(city);
+                      controller
+                          .fetchDoctorLocations(controller.cityController.text);
                       Get.to(() => CustomMap(
                             city: controller.cityController.text.toLowerCase(),
                             markers: controller.markers,
@@ -38,7 +67,8 @@ class MapScreen extends StatelessWidget {
                     },
                   ),
                 ),
-              ),
+              ), */
+              Spacer(),
               MaterialButton(
                   child: Text("city"),
                   color: Colors.blue,
@@ -46,7 +76,7 @@ class MapScreen extends StatelessWidget {
                     final String city = controller.cityController.text;
                     controller.fetchDoctorLocations(city);
                     Get.to(() => CustomMap(
-                          city: controller.cityController.text.toLowerCase(),
+                          city: city.toLowerCase(),
                           markers: controller.markers,
                         ));
                   }),
@@ -97,7 +127,7 @@ class CustomMap extends GetView<DoctorLocatorController> {
         body: GoogleMap(
           initialCameraPosition: CameraPosition(
             target: cities[city]!,
-            zoom: 12,
+            zoom: 11,
           ),
           markers: markers,
         ));

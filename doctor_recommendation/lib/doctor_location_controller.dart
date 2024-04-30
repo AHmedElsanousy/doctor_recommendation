@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:doctor_recommendation/doctor_profile2.dart';
-import 'package:doctor_recommendation/main.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -11,7 +11,8 @@ import 'package:http/http.dart' as http;
 class DoctorLocatorController extends GetxController {
   final TextEditingController cityController = TextEditingController();
   List<LatLng> doctorLocations = [];
-  Set<Marker> markers = {};
+  var markers = <Marker>{}.obs;
+  String? city;
 
   @override
   void onClose() {
@@ -34,6 +35,7 @@ class DoctorLocatorController extends GetxController {
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       print(data);
+      markers.clear();
 
       for (var doctor in data) {
         if (doctor['Latitude'] != null && doctor['Longitude'] != null) {
