@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 class DoctorLocatorController extends GetxController {
   final TextEditingController cityController = TextEditingController();
   List<LatLng> doctorLocations = [];
-  var markers = <Marker>{}.obs;
+  Set<Marker> markers = {};
   String? city;
 
   @override
@@ -24,7 +24,7 @@ class DoctorLocatorController extends GetxController {
     LatLng 
   } */
 
-  Future<void> fetchDoctorLocations(String city) async {
+  Future<Set<Marker>> fetchDoctorLocations(String city) async {
     var url = Uri.parse('http://192.168.1.3:8080/recommend_top_doctors');
     var response = await http.post(
       url,
@@ -43,11 +43,13 @@ class DoctorLocatorController extends GetxController {
         } else {
           print("Invalid latitude or longitude value for $doctor");
         }
-        print(markers);
       }
+      update();
     } else {
       print('Failed to fetch doctor locations: ${response.reasonPhrase}');
     }
+
+    return markers;
   }
 }
 

@@ -22,12 +22,16 @@ class MapScreen extends StatelessWidget {
           child: Column(
             children: [
               DropdownMenu(
-                  onSelected: (city) {
+                  onSelected: (city) async {
                     if (city != null) {
-                      controller.fetchDoctorLocations(city);
+                      final Set<Marker> mar =
+                          await controller.fetchDoctorLocations(city);
+                      print("-----------------------------------------");
+                      print("this is marker here");
+                      print(mar);
                       Get.to(() => CustomMap(
                             city: city.toLowerCase(),
-                            markers: controller.markers,
+                            //markers: controller.markers,
                           ));
                     }
                   },
@@ -75,9 +79,11 @@ class MapScreen extends StatelessWidget {
                   onPressed: () {
                     final String city = controller.cityController.text;
                     controller.fetchDoctorLocations(city);
+                    print("-----------------------------------------");
+                    print(controller.markers);
                     Get.to(() => CustomMap(
                           city: city.toLowerCase(),
-                          markers: controller.markers,
+                          //markers: controller.markers,
                         ));
                   }),
             ],
@@ -106,17 +112,19 @@ class MapScreen extends StatelessWidget {
             ),
           ],
         ), */
+
         );
   }
 }
 
-class CustomMap extends GetView<DoctorLocatorController> {
-  final Set<Marker> markers;
+class CustomMap extends StatelessWidget {
+  // final Set<Marker> markers;
   final String city;
+  final DoctorLocatorController controller = Get.put(DoctorLocatorController());
 
-  const CustomMap({
+  CustomMap({
     super.key,
-    required this.markers,
+    // required this.markers,
     required this.city,
   });
 
@@ -129,7 +137,7 @@ class CustomMap extends GetView<DoctorLocatorController> {
             target: cities[city]!,
             zoom: 11,
           ),
-          markers: markers,
+          markers: controller.markers,
         ));
   }
 }

@@ -2,6 +2,7 @@ import 'package:doctor_recommendation/cities.dart';
 import 'package:doctor_recommendation/doctor_location_controller.dart';
 import 'package:doctor_recommendation/doctor_profile2.dart';
 import 'package:doctor_recommendation/map_view.dart';
+import 'package:doctor_recommendation/mapview2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
